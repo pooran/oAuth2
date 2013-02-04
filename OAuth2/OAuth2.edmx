@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="OAuth2Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="OAuth2ModelStoreContainer">
+          <EntitySet Name="Application" EntityType="OAuth2Model.Store.Application" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Customer" EntityType="OAuth2Model.Store.Customer" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Provision" EntityType="OAuth2Model.Store.Provision" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Token" EntityType="OAuth2Model.Store.Token" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Provision_Application" Association="OAuth2Model.Store.FK_Provision_Application">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="Provision" EntitySet="Provision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Provision_Customer" Association="OAuth2Model.Store.FK_Provision_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Provision" EntitySet="Provision" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Token_Provision" Association="OAuth2Model.Store.FK_Token_Provision">
+            <End Role="Provision" EntitySet="Provision" />
+            <End Role="Token" EntitySet="Token" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+          </Key>
+          <Property Name="ApplicationId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Provision">
+          <Key>
+            <PropertyRef Name="ProvisionId" />
+          </Key>
+          <Property Name="ProvisionId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ApplicationId" Type="int" Nullable="false" />
+          <Property Name="Domain" Type="nvarchar" MaxLength="100" />
+          <Property Name="RedirectUrl" Type="nvarchar" MaxLength="150" />
+          <Property Name="IsEnabled" Type="bit" Nullable="false" />
+          <Property Name="Secret" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Token">
+          <Key>
+            <PropertyRef Name="TokenId" />
+          </Key>
+          <Property Name="TokenId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ProvisionId" Type="int" Nullable="false" />
+          <Property Name="ExpiryDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_Provision_Application">
+          <End Role="Application" Type="OAuth2Model.Store.Application" Multiplicity="1" />
+          <End Role="Provision" Type="OAuth2Model.Store.Provision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Provision">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Provision_Customer">
+          <End Role="Customer" Type="OAuth2Model.Store.Customer" Multiplicity="1" />
+          <End Role="Provision" Type="OAuth2Model.Store.Provision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Provision">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Token_Provision">
+          <End Role="Provision" Type="OAuth2Model.Store.Provision" Multiplicity="1" />
+          <End Role="Token" Type="OAuth2Model.Store.Token" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provision">
+              <PropertyRef Name="ProvisionId" />
+            </Principal>
+            <Dependent Role="Token">
+              <PropertyRef Name="ProvisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OAuth2Model" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="OAuth2Entities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Applications" EntityType="OAuth2Model.Application" />
+          <EntitySet Name="Customers" EntityType="OAuth2Model.Customer" />
+          <EntitySet Name="Provisions" EntityType="OAuth2Model.Provision" />
+          <EntitySet Name="Tokens" EntityType="OAuth2Model.Token" />
+          <AssociationSet Name="FK_Provision_Application" Association="OAuth2Model.FK_Provision_Application">
+            <End Role="Application" EntitySet="Applications" />
+            <End Role="Provision" EntitySet="Provisions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Provision_Customer" Association="OAuth2Model.FK_Provision_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Provision" EntitySet="Provisions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Token_Provision" Association="OAuth2Model.FK_Token_Provision">
+            <End Role="Provision" EntitySet="Provisions" />
+            <End Role="Token" EntitySet="Tokens" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="ApplicationId" />
+          </Key>
+          <Property Name="ApplicationId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ApplicationName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Provisions" Relationship="OAuth2Model.FK_Provision_Application" FromRole="Application" ToRole="Provision" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Guid" Nullable="false" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Provisions" Relationship="OAuth2Model.FK_Provision_Customer" FromRole="Customer" ToRole="Provision" />
+        </EntityType>
+        <EntityType Name="Provision">
+          <Key>
+            <PropertyRef Name="ProvisionId" />
+          </Key>
+          <Property Name="ProvisionId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Guid" Nullable="false" />
+          <Property Name="ApplicationId" Type="Int32" Nullable="false" />
+          <Property Name="Domain" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="RedirectUrl" Type="String" MaxLength="150" Unicode="true" FixedLength="false" />
+          <Property Name="IsEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="Secret" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Application" Relationship="OAuth2Model.FK_Provision_Application" FromRole="Provision" ToRole="Application" />
+          <NavigationProperty Name="Customer" Relationship="OAuth2Model.FK_Provision_Customer" FromRole="Provision" ToRole="Customer" />
+          <NavigationProperty Name="Tokens" Relationship="OAuth2Model.FK_Token_Provision" FromRole="Provision" ToRole="Token" />
+        </EntityType>
+        <EntityType Name="Token">
+          <Key>
+            <PropertyRef Name="TokenId" />
+          </Key>
+          <Property Name="TokenId" Type="Guid" Nullable="false" />
+          <Property Name="ProvisionId" Type="Int32" Nullable="false" />
+          <Property Name="ExpiryDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Provision" Relationship="OAuth2Model.FK_Token_Provision" FromRole="Token" ToRole="Provision" />
+        </EntityType>
+        <Association Name="FK_Provision_Application">
+          <End Role="Application" Type="OAuth2Model.Application" Multiplicity="1" />
+          <End Role="Provision" Type="OAuth2Model.Provision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ApplicationId" />
+            </Principal>
+            <Dependent Role="Provision">
+              <PropertyRef Name="ApplicationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Provision_Customer">
+          <End Role="Customer" Type="OAuth2Model.Customer" Multiplicity="1" />
+          <End Role="Provision" Type="OAuth2Model.Provision" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Provision">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Token_Provision">
+          <End Role="Provision" Type="OAuth2Model.Provision" Multiplicity="1" />
+          <End Role="Token" Type="OAuth2Model.Token" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Provision">
+              <PropertyRef Name="ProvisionId" />
+            </Principal>
+            <Dependent Role="Token">
+              <PropertyRef Name="ProvisionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OAuth2ModelStoreContainer" CdmEntityContainer="OAuth2Entities">
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="OAuth2Model.Application">
+              <MappingFragment StoreEntitySet="Application">
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="OAuth2Model.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Provisions">
+            <EntityTypeMapping TypeName="OAuth2Model.Provision">
+              <MappingFragment StoreEntitySet="Provision">
+                <ScalarProperty Name="ProvisionId" ColumnName="ProvisionId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
+                <ScalarProperty Name="Domain" ColumnName="Domain" />
+                <ScalarProperty Name="RedirectUrl" ColumnName="RedirectUrl" />
+                <ScalarProperty Name="IsEnabled" ColumnName="IsEnabled" />
+                <ScalarProperty Name="Secret" ColumnName="Secret" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tokens">
+            <EntityTypeMapping TypeName="OAuth2Model.Token">
+              <MappingFragment StoreEntitySet="Token">
+                <ScalarProperty Name="TokenId" ColumnName="TokenId" />
+                <ScalarProperty Name="ProvisionId" ColumnName="ProvisionId" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

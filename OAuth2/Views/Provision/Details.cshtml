@@ -1,0 +1,58 @@
+﻿@model OAuth2.Provision
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Provision</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Customer.CustomerName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Customer.CustomerName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Application.ApplicationName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Application.ApplicationName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Domain)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Domain)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.RedirectUrl)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RedirectUrl)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IsEnabled)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsEnabled)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Secret)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Secret)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ProvisionId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
