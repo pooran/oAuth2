@@ -13,90 +13,34 @@ namespace OAuth2.Controllers
 {
     public class oAuth2Controller : ApiController
     {
-        private OAuth2Entities db = new OAuth2Entities();
+        private oAuthEntities db = new oAuthEntities();
 
-        // GET api/oAuth2
-        public IEnumerable<Token> GetTokens()
+        public Guid Authorize(Guid CustomerKey, Guid CustomerSecret)
         {
-            var tokens = db.Tokens.Include(t => t.Provision);
-            return tokens.AsEnumerable();
-        }
-
-        // GET api/oAuth2/5
-        public Token GetToken(Guid id)
-        {
-            Token token = db.Tokens.Find(id);
-            if (token == null)
-            {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-            }
-
-            return token;
-        }
-
-        // PUT api/oAuth2/5
-        public HttpResponseMessage PutToken(Guid id, Token token)
-        {
-            if (ModelState.IsValid && id == token.TokenId)
-            {
-                db.Entry(token).State = EntityState.Modified;
-
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
-                }
-
-                return Request.CreateResponse(HttpStatusCode.OK);
-            }
+            Provision provision = db.Provisions.Where(x => x.CustomerId == CustomerKey && x.Secret == CustomerSecret).FirstOrDefault();
+            if (provision == null) throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
             else
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
-        }
-
-        // POST api/oAuth2
-        public HttpResponseMessage PostToken(Token token)
-        {
-            if (ModelState.IsValid)
-            {
+                Token token = new Token();
+                token.ExpiryDate = DateTime.Now.AddMinutes(30);
+                token.TokenId = Guid.NewGuid();
+                token.Provision = provision;
+                token.ProvisionId = provision.ProvisionId;
                 db.Tokens.Add(token);
                 db.SaveChanges();
-
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, token);
-                response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = token.TokenId }));
-                return response;
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+                return token.TokenId;
             }
         }
 
-        // DELETE api/oAuth2/5
-        public HttpResponseMessage DeleteToken(Guid id)
+        public string  Validate(Guid id)
         {
-            Token token = db.Tokens.Find(id);
-            if (token == null)
+            Token token = db.Tokens.Where(x => x.TokenId == id && x.ExpiryDate > DateTime.Now).FirstOrDefault();
+            if (token == null) throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.Unauthorized));
+            else
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                Provision provision = db.Provisions.Where(x => x.ProvisionId == token.ProvisionId).FirstOrDefault();
+                return provision.CustomAppData;
             }
-
-            db.Tokens.Remove(token);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, token);
         }
 
         protected override void Dispose(bool disposing)

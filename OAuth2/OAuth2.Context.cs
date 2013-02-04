@@ -13,10 +13,10 @@ namespace OAuth2
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class OAuth2Entities : DbContext
+    public partial class oAuthEntities : DbContext
     {
-        public OAuth2Entities()
-            : base("name=OAuth2Entities")
+        public oAuthEntities()
+            : base("name=oAuthEntities")
         {
         }
     

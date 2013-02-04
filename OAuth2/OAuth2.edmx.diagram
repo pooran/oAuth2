@@ -4,14 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="cececa3d02334d1cadf3b51e1f991970" Name="Diagram1">
-        <EntityTypeShape EntityType="OAuth2Model.Application" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="OAuth2Model.Customer" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="OAuth2Model.Provision" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="OAuth2Model.Token" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
-        <AssociationConnector Association="OAuth2Model.FK_Provision_Application" ManuallyRouted="false" />
-        <AssociationConnector Association="OAuth2Model.FK_Provision_Customer" ManuallyRouted="false" />
-        <AssociationConnector Association="OAuth2Model.FK_Token_Provision" ManuallyRouted="false" />
+      <Diagram DiagramId="7c4ccbc9e9a74532b1ce0ce1361f2b38" Name="Diagram1">
+        <EntityTypeShape EntityType="oAuth2Model.Application" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oAuth2Model.Customer" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="oAuth2Model.Provision" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="oAuth2Model.Token" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
+        <AssociationConnector Association="oAuth2Model.FK_Provision_Application" ManuallyRouted="false" />
+        <AssociationConnector Association="oAuth2Model.FK_Provision_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="oAuth2Model.FK_Token_Provision" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

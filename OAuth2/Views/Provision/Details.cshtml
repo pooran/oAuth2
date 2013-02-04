@@ -51,6 +51,13 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.Secret)
     </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CustomAppData)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CustomAppData)
+    </div>
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.ProvisionId }) |

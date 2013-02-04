@@ -10,7 +10,7 @@ namespace OAuth2.Controllers
 {
     public class CustomerController : Controller
     {
-        private OAuth2Entities db = new OAuth2Entities();
+        private oAuthEntities db = new oAuthEntities();
 
         //
         // GET: /Customer/

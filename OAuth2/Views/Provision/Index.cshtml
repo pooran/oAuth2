@@ -30,6 +30,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Secret)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomAppData)
+        </th>
         <th></th>
     </tr>
 
@@ -52,6 +55,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Secret)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomAppData)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ProvisionId }) |

@@ -63,6 +63,14 @@
             @Html.ValidationMessageFor(model => model.Secret)
         </div>
 
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CustomAppData)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CustomAppData)
+            @Html.ValidationMessageFor(model => model.CustomAppData)
+        </div>
+
         <p>
             <input type="submit" value="Save" />
         </p>

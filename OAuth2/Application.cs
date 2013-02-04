@@ -11,7 +11,6 @@ namespace OAuth2
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class Application
     {
@@ -20,12 +19,9 @@ namespace OAuth2
             this.Provisions = new HashSet<Provision>();
         }
     
-        [Display(Name="Application Id")]
-     public int ApplicationId { get; set; }
-        [Display(Name="Application Name")]
-     public string ApplicationName { get; set; }
+        public int ApplicationId { get; set; }
+        public string ApplicationName { get; set; }
     
-        [Display(Name="Provisions")]
-     public virtual ICollection<Provision> Provisions { get; set; }
+        public virtual ICollection<Provision> Provisions { get; set; }
     }
 }
