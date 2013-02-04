@@ -274,25 +274,41 @@ public class CodeStringGenerator
         _ef = ef;
     }
 
-    public string Property(EdmProperty edmProperty)
+   public string Property(EdmProperty edmProperty)
     {
         return string.Format(
             CultureInfo.InvariantCulture,
-            "{0} {1} {2} {{ {3}get; {4}set; }}",
+            "{0} {1} {2} {3} {{ {4}get; {5}set; }}",
+			"[Display(Name=\""+AddSpacesToSentence(_code.Escape(edmProperty))+"\")]"+ Environment.NewLine,
             Accessibility.ForProperty(edmProperty),
             _typeMapper.GetTypeName(edmProperty.TypeUsage),
             _code.Escape(edmProperty),
             _code.SpaceAfter(Accessibility.ForGetter(edmProperty)),
             _code.SpaceAfter(Accessibility.ForSetter(edmProperty)));
     }
+	public string AddSpacesToSentence(string text)
+	{
+			if (string.IsNullOrWhiteSpace(text))
+			   return "";
+			StringBuilder newText = new StringBuilder(text.Length * 2);
+			newText.Append(text[0]);
+			for (int i = 1; i < text.Length; i++)
+			{
+				if (char.IsUpper(text[i]) && text[i - 1] != ' ')
+					newText.Append(' ');
+				newText.Append(text[i]);
+			}
+			return newText.ToString();
+	}
 
-    public string NavigationProperty(NavigationProperty navigationProperty)
+     public string NavigationProperty(NavigationProperty navigationProperty)
     {
         var endType = _typeMapper.GetTypeName(navigationProperty.ToEndMember.GetEntityType());
         return string.Format(
             CultureInfo.InvariantCulture,
-            "{0} {1} {2} {{ {3}get; {4}set; }}",
-            AccessibilityAndVirtual(Accessibility.ForProperty(navigationProperty)),
+            "{0} {1} {2} {3} {{ {4}get; {5}set; }}",
+            "[Display(Name=\""+AddSpacesToSentence( _code.Escape(navigationProperty))+"\")]"+ Environment.NewLine,
+           AccessibilityAndVirtual(Accessibility.ForProperty(navigationProperty)),
             navigationProperty.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many ? ("ICollection<" + endType + ">") : endType,
             _code.Escape(navigationProperty),
             _code.SpaceAfter(Accessibility.ForGetter(navigationProperty)),
@@ -421,8 +437,7 @@ public class CodeStringGenerator
                 "{0}using System;{1}" +
                 "{2}",
                 inHeader ? Environment.NewLine : "",
-                includeCollections ? (Environment.NewLine + "using System.Collections.Generic;") : "",
-                inHeader ? "" : Environment.NewLine)
+                includeCollections ? (Environment.NewLine + "using System.Collections.Generic;"+ Environment.NewLine +"using System.ComponentModel.DataAnnotations;") : "",inHeader ? "" : Environment.NewLine)
             : "";
     }
 }
